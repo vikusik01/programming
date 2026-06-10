@@ -10,15 +10,15 @@ int main() {
     char *texts[COUNT] = {
         "I love dogs",
         "Programming is interesting",
-        "Practice every day",
+        "Practice every day"
     };
-
-    char input[MAX_LEN];
 
     srand(time(NULL));
 
     int index = rand() % COUNT;
     char *text = texts[index];
+
+    char input[MAX_LEN];
 
     printf("Введите следующий текст:\n");
     printf("%s\n\n", text);
@@ -26,7 +26,9 @@ int main() {
     printf("Ваш ввод:\n");
 
     time_t start = time(NULL);
+
     fgets(input, MAX_LEN, stdin);
+
     time_t end = time(NULL);
 
     input[strcspn(input, "\n")] = '\0';
@@ -34,19 +36,46 @@ int main() {
     int correct = 0;
     int errors = 0;
 
-    int lenText = strlen(text);
-    int lenInput = strlen(input);
+    int i = 0; 
+    int j = 0;
 
-    int minLen = lenText < lenInput ? lenText : lenInput;
+    while (input[i] != '\0' && text[j] != '\0') {
 
-    for (int i = 0; i < minLen; i++) {
-        if (input[i] == text[i])
+        if (input[i] == text[j]) {
             correct++;
-        else
+            i++;
+            j++;
+        }
+        else {
+
             errors++;
+
+            if (input[i + 1] == text[j]) {
+                printf("Ошибка: лишний символ '%c'\n", input[i]);
+                i++;
+            }
+            else if (input[i] == text[j + 1]) {
+                printf("Ошибка: пропущен символ '%c'\n", text[j]);
+                j++;
+            }
+            else {
+                printf("Ошибка: '%c' вместо '%c'\n",
+                       input[i], text[j]);
+                i++;
+                j++;
+            }
+        }
     }
 
-    errors += abs(lenText - lenInput);
+    while (input[i] != '\0') {
+        errors++;
+        i++;
+    }
+
+    while (text[j] != '\0') {
+        errors++;
+        j++;
+    }
 
     printf("\n=== Результат ===\n");
     printf("Правильно введенных символов: %d\n", correct);
