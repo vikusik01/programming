@@ -4,13 +4,13 @@
 #include <time.h>
 
 #define MAX_LEN 256
-#define COUNT 5
+#define COUNT 3
 
 int main() {
     char *texts[COUNT] = {
         "I love dogs",
         "Programming is interesting",
-        "Practice every day"
+        "Practice every day",
     };
 
     char input[MAX_LEN];
